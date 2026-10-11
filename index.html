@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#172a24" />
+  <title>말뜻 — 국어 어휘 암기실</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600;700;800&display=swap');
+    :root{--ink:#172a24;--muted:#68756f;--paper:#f6f2e8;--card:#fffdf7;--line:#d8d2c3;--green:#245a49;--mint:#dcebe1;--coral:#df6b55;--yellow:#f1c85b;--shadow:0 18px 50px rgba(41,50,45,.12)}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Pretendard,"Noto Sans KR",sans-serif;min-height:100vh}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:radial-gradient(#244b3b18 .7px,transparent .7px);background-size:8px 8px}
+    button,input{font:inherit}button{cursor:pointer;color:inherit}.shell{max-width:1120px;margin:auto;padding:30px 24px 64px;position:relative}
+    header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:26px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.17em;color:var(--coral);margin-bottom:6px}.logo{font-family:"Gowun Batang",serif;font-weight:700;font-size:clamp(32px,6vw,58px);line-height:1;margin:0}.logo i{font-style:normal;color:var(--green)}.sub{color:var(--muted);margin:8px 0 0}.progress-box{min-width:210px}.progress-top{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:8px}.progress{height:9px;background:#dfd9cb;border-radius:9px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--coral);transition:.3s}
+    nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}.tab{border:1px solid var(--line);background:#eee9dd;padding:14px 12px;border-radius:14px;font-weight:800}.tab.active{background:var(--ink);color:white;border-color:var(--ink);box-shadow:0 7px 18px #172a2430}.tab small{display:block;font-weight:500;opacity:.7;margin-top:3px}
+    .panel{display:none}.panel.active{display:block}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 0 16px}.pill{border:1px solid var(--line);background:transparent;border-radius:99px;padding:9px 13px;font-size:13px;font-weight:700}.pill:hover{background:white}.pill.primary{background:var(--green);color:white;border-color:var(--green)}.count{font-size:13px;color:var(--muted)}
+    .study{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.word-list{height:620px;overflow:auto;padding:8px}.word-row{display:grid;grid-template-columns:38px 180px 1fr;gap:12px;align-items:start;padding:15px 12px;border-radius:14px;border-bottom:1px solid #ebe6da}.word-row:hover,.word-row.focus{background:var(--mint)}.num{color:#9a8e7d;font:700 13px "Gowun Batang",serif}.term{font-family:"Gowun Batang",serif;font-weight:700;font-size:17px}.meaning{line-height:1.65;color:#34463f}.meaning mark{background:linear-gradient(transparent 55%,#f1c85b88 55%);font-weight:800;color:inherit;padding:0 1px}.study-card{padding:34px;min-height:410px;display:flex;flex-direction:column;justify-content:space-between;position:sticky;top:20px}.study-card .index{color:var(--coral);font-weight:800}.study-card h2{font:700 clamp(32px,5vw,48px) "Gowun Batang",serif;margin:18px 0}.study-card .definition{font-size:21px;line-height:1.7}.study-card .definition mark{background:#f3d978;padding:0 3px;font-weight:800}.study-card .hint{color:var(--muted);font-size:13px}.card-actions{display:flex;gap:9px;margin-top:28px}.card-actions button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800;background:#ede8dd}.card-actions .know{background:var(--green);color:white}
+    .match-wrap{padding:26px;position:relative}.match-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.match-head h2{font:700 25px "Gowun Batang",serif;margin:0}.match-board{position:relative;display:grid;grid-template-columns:minmax(120px,.75fr) minmax(250px,1.5fr);gap:88px}.match-col{display:flex;flex-direction:column;gap:12px;z-index:2}.match-item{min-height:66px;border:2px solid transparent;border-radius:15px;background:#f0ece2;padding:13px 16px;text-align:left;display:flex;align-items:center;line-height:1.45;font-weight:700}.match-item.mean{font-weight:500}.match-item:hover{border-color:#96aa9e}.match-item.selected{border-color:var(--coral);background:#fff3ef}.match-item.done{background:#e3efe7;border-color:#85a996}.match-item.wrong{animation:shake .3s;border-color:#c84d3c}.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}.lines line{stroke:var(--green);stroke-width:3;stroke-linecap:round}.match-footer{text-align:center;margin-top:22px;color:var(--muted);font-size:14px}
+    .quiz-card{max-width:720px;margin:auto;padding:clamp(25px,5vw,50px)}.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:700}.quiz-q{font:700 clamp(22px,4vw,32px) "Gowun Batang",serif;line-height:1.6;margin:38px 0 28px}.quiz-q mark{background:#f3d978;color:inherit}.answer-row{display:flex;gap:10px}.answer-row input{min-width:0;flex:1;border:2px solid var(--line);border-radius:13px;background:white;padding:15px 17px;font-size:18px;outline:none}.answer-row input:focus{border-color:var(--green)}.answer-row button{border:0;border-radius:13px;background:var(--green);color:white;padding:0 24px;font-weight:800}.feedback{min-height:70px;margin-top:22px;border-radius:14px;padding:16px 18px;display:none}.feedback.show{display:block}.feedback.good{background:#e0eee4;color:#194c39}.feedback.bad{background:#f9e3de;color:#7b2b20}.feedback strong{display:block;font-size:18px;margin-bottom:4px}.next{width:100%;border:1px solid var(--line);background:#eee9dd;border-radius:12px;padding:13px;font-weight:800;margin-top:14px;display:none}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.stat{background:#f0ece2;border-radius:12px;padding:12px;text-align:center}.stat b{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted)}
+    .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--ink);color:white;padding:12px 19px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+    @media(max-width:780px){header{align-items:flex-start;flex-direction:column}.progress-box{width:100%}.study{grid-template-columns:1fr}.word-list{height:430px}.study-card{position:static;min-height:350px}.word-row{grid-template-columns:30px 120px 1fr}.match-wrap{padding:16px}.match-board{gap:32px;grid-template-columns:.65fr 1.35fr}.match-item{font-size:13px;padding:10px;min-height:76px}.answer-row{flex-direction:column}.answer-row button{padding:14px}nav .tab{font-size:14px}}
+    .match-item{display:block;writing-mode:horizontal-tb;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}
+    .match-item .sentence{display:block}
+    .match-item mark{display:inline;color:inherit;background:#f3d978;padding:0;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+    .meaning,.definition,.quiz-q{word-break:keep-all;overflow-wrap:anywhere;writing-mode:horizontal-tb}
+    .study{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+    .word-row{grid-template-columns:30px 100px minmax(0,1fr)}
+    @media(max-width:780px){.study{grid-template-columns:minmax(0,1fr)}.word-row{grid-template-columns:26px 90px minmax(0,1fr)}}
+    .mobile-list-toggle{display:none}
+    button{touch-action:manipulation}
+    button:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+    @media(max-width:600px){
+      .shell{padding:22px 16px calc(112px + env(safe-area-inset-bottom));width:100%}
+      header{gap:18px;margin-bottom:20px}
+      .eyebrow{font-size:10px;letter-spacing:.1em}
+      .logo{font-size:42px}.sub{font-size:13px;line-height:1.6;word-break:keep-all}
+      .progress-box{min-width:0}.progress-top{font-size:12px}
+      nav{position:fixed;bottom:0;left:0;right:0;z-index:8;margin:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:6px;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -5px 25px #172a2410}
+      nav .tab{font-size:12px;min-height:56px;padding:9px 3px;border-radius:12px}
+      .tab small{font-size:10px;margin-top:4px}
+      .toolbar{align-items:flex-start;gap:10px;margin:0 0 14px}
+      .count{font-size:12px;line-height:1.6;word-break:keep-all}
+      .pill{flex-shrink:0;min-height:44px;padding:10px 12px;font-size:12px}
+      .study{display:flex;flex-direction:column;gap:14px}
+      .study-card{order:0;position:static;min-height:340px;padding:24px 22px;box-shadow:0 8px 25px #172a2410}
+      .study-card h2{font-size:38px;margin:22px 0}
+      .study-card .definition{font-size:20px;line-height:1.8}
+      .study-card .hint{font-size:12px;line-height:1.6;margin-bottom:12px}
+      .card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+      .card-actions button{min-height:48px;font-size:14px;padding:12px 5px}
+      #prev{grid-column:1;grid-row:2}#next{grid-column:2;grid-row:2}
+      #again{grid-column:1;grid-row:1}#know{grid-column:2;grid-row:1}
+      .mobile-list-toggle{display:block;order:1;width:100%;min-height:48px;background:transparent;border:1px solid var(--line);border-radius:14px;font-size:14px;font-weight:700}
+      .word-list{order:2;display:none;height:auto;max-height:440px;box-shadow:none;overscroll-behavior:contain}
+      .study.mobile-list-open .word-list{display:block}
+      .word-row{grid-template-columns:24px minmax(0,1fr);gap:8px;padding:14px 10px}
+      .word-row .meaning{grid-column:2;font-size:14px}.word-row .term{font-size:18px}
+      .match-wrap{padding:16px 10px;border-radius:18px;box-shadow:none}
+      .match-head{gap:8px;margin-bottom:14px}.match-head h2{font-size:19px}.match-head span{font-size:13px;white-space:nowrap}
+      .match-board{grid-template-columns:minmax(76px,.7fr) minmax(0,1.6fr);gap:22px}
+      .match-col{min-width:0;gap:10px}
+      .match-item{width:100%;min-height:80px;padding:12px 8px;font-size:14px;line-height:1.65;border-radius:12px;word-break:keep-all;overflow-wrap:anywhere}
+      .term-m{font-size:15px;font-weight:800}.match-footer{font-size:12px;line-height:1.6;margin-top:16px}
+      .quiz-card{padding:24px 20px;box-shadow:0 8px 25px #172a2410}
+      .quiz-meta{font-size:11px;gap:10px}.quiz-q{font-size:24px;line-height:1.75;margin:28px 0}
+      .answer-row{gap:10px}.answer-row input{font-size:18px;padding:14px;min-height:54px}
+      .answer-row button{min-height:50px;font-size:16px}.next{min-height:48px}
+      .feedback{font-size:14px;line-height:1.6;padding:14px}.feedback strong{font-size:17px}
+      .stats{gap:7px}.stat{padding:12px 5px}.stat b{font-size:22px}
+      .toast{bottom:calc(94px + env(safe-area-inset-bottom));max-width:calc(100% - 32px);width:max-content;white-space:normal;text-align:center;font-size:13px}
+    }
+    .study-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.word-status{display:block;font:600 11px sans-serif;margin-top:7px;color:var(--green)}.card-status{display:inline-block;margin-left:10px;border-radius:99px;padding:5px 9px;background:var(--mint);font-size:12px}.empty-note{padding:24px;color:var(--muted);line-height:1.8;text-align:center}.quiz-mark{margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:14px}.quiz-mark[hidden]{display:none}.quiz-mark p{font-size:13px;line-height:1.6;margin:0 0 10px}.quiz-mark-buttons{display:flex;gap:8px}.quiz-mark-buttons button{flex:1;min-height:44px}.quiz-mark .quiz-status{margin:10px 0 0;color:var(--green);font-weight:700}.clear-data{display:block;margin:28px auto 0;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header><div><div class="eyebrow">02 · 공감하고 조정하는 대화</div><h1 class="logo">말<i>뜻</i></h1><p class="sub">뜻을 보고 단어가 떠오를 때까지, 가볍게 반복해요.</p></div><div class="progress-box"><div class="progress-top"><span>오늘의 학습</span><span id="masteryText">0 / 56</span></div><div class="progress"><span id="masteryBar"></span></div></div></header>
+  <nav aria-label="학습 모드"><button class="tab active" data-tab="learn">단어 익히기<small>뜻과 핵심어 보기</small></button><button class="tab" data-tab="match">선으로 잇기<small>6개씩 짝 맞추기</small></button><button class="tab" data-tab="quiz">뜻 보고 맞히기<small>직접 입력 퀴즈</small></button></nav>
+  <section id="learn" class="panel active"><div class="toolbar"><div class="count">전체 56개 · 핵심어는 노란색으로 표시돼요</div><button class="pill" id="shuffleStudy">순서 섞기</button></div><div class="study"><div class="card word-list" id="wordList"></div><article class="card study-card" id="studyCard"></article></div></section>
+  <section id="match" class="panel"><div class="toolbar"><div class="count">왼쪽 단어와 오른쪽 뜻을 차례로 눌러 연결하세요.</div><button class="pill primary" id="newMatch">새 문제</button></div><div class="card match-wrap"><div class="match-head"><h2>짝을 찾아 선으로 이어요</h2><span id="matchScore">0 / 6</span></div><div class="match-board" id="matchBoard"><svg class="lines" id="matchLines"></svg><div class="match-col" id="terms"></div><div class="match-col" id="meanings"></div></div><div class="match-footer" id="matchFooter">정답인 두 항목을 고르면 선이 그어집니다.</div></div></section>
+  <section id="quiz" class="panel"><div class="toolbar"><div class="count">띄어쓰기는 무시하지만 ‘하다’까지 정확히 써야 해요.</div><button class="pill" id="resetQuiz">기록 초기화</button></div><article class="card quiz-card"><div class="quiz-meta"><span id="quizNo">문제 1</span><span id="streak">연속 정답 0</span></div><div class="quiz-q" id="quizQuestion"></div><form class="answer-row" id="answerForm"><input id="answerInput" autocomplete="off" placeholder="단어를 입력하세요" aria-label="정답 단어"/><button>정답 확인</button></form><div class="feedback" id="feedback"></div><button class="next" id="nextQuiz">다음 문제 →</button><div class="stats"><div class="stat"><b id="correctStat">0</b><span>정답</span></div><div class="stat"><b id="wrongStat">0</b><span>다시 보기</span></div><div class="stat"><b id="rateStat">0%</b><span>정답률</span></div></div></article></section>
+</main><div class="toast" id="toast"></div>
+<script>
+const words=[
+["공감하다","남의 감정, 의견, 주장 등에 대하여 자기도 그렇다고 느끼다.",["남의 감정","자기도 그렇다고"]],
+["유대감","서로 밀접하게 연결되어 있는 공통된 느낌.",["밀접하게 연결","공통된 느낌"]],
+["순조롭다","일 등이 아무 탈이나 말썽 없이 예정대로 잘되어 가는 상태에 있다.",["아무 탈이나 말썽 없이","예정대로"]],
+["자초지종","처음부터 끝까지의 과정.",["처음부터 끝까지"]],
+["감정","어떤 현상이나 일에 대하여 일어나는 마음이나 느끼는 기분.",["마음","느끼는 기분"]],
+["악화하다","일의 형세가 나쁜 쪽으로 바뀌다. ↔ 호전하다",["나쁜 쪽","바뀌다"]],
+["조정하다","분쟁을 중간에서 화해하게 하거나 서로 타협점을 찾아 합의하도록 하다.",["분쟁","타협점","합의"]],
+["비난","남의 잘못이나 결점을 책잡아서 나쁘게 말함. ≒ 지탄, 힐난",["잘못이나 결점","나쁘게 말함"]],
+["비판","현상이나 사물의 옳고 그름을 판단하여 밝히거나 잘못된 점을 지적함.",["옳고 그름","잘못된 점"]],
+["원만하다","서로 사이가 좋다. ≒ 원활하다",["사이가 좋다"]],
+["외향적","마음의 움직임을 적극적으로 나타내는 것.",["적극적으로","나타내는"]],
+["어조","말의 가락.",["말의 가락"]],
+["추측하다","미루어 생각하여 헤아리다.",["미루어 생각","헤아리다"]],
+["소음","불규칙하게 뒤섞여 불쾌하고 시끄러운 소리.",["불쾌하고","시끄러운 소리"]],
+["협력","힘을 합하여 서로 도움. ≒ 협동",["힘을 합하여","서로 도움"]],
+["재구성하다","한 번 구성하였던 것을 다시 새롭게 구성하다.",["다시","새롭게 구성"]],
+["구체적","실제적이고 세밀한 부분까지 담고 있는 것.",["실제적","세밀한 부분"]],
+["격려하다","용기나 의욕이 솟아나도록 북돋게 하다.",["용기나 의욕","북돋게"]],
+["해결하다","제기된 문제를 해명하거나 얽힌 일을 잘 처리하다.",["문제","잘 처리"]],
+["신념","굳게 믿는 마음. ≒ 믿음, 소신",["굳게 믿는 마음"]],
+["의견","어떤 대상에 대하여 가지는 생각.",["대상","생각"]],
+["욕구","무엇을 얻거나 무슨 일을 하고자 바라는 일. ≒ 욕망",["얻거나","하고자 바라는"]],
+["고전","오랫동안 많은 사람에게 널리 읽히고 모범이 될 만한 문학이나 예술 작품.",["오랫동안","모범이 될"]],
+["주관적","자기의 견해나 관점을 기초로 하는.",["자기의 견해","관점"]],
+["경청하다","귀를 기울여 듣다.",["귀를 기울여"]],
+["입장","당면하고 있는 상황. ≒ 처지",["당면하고 있는 상황","처지"]],
+["감명","감격하여 마음에 깊이 새김. 또는 그 새겨진 느낌.",["마음에 깊이","새겨진 느낌"]],
+["띠지","지폐나 서류 등의 가운데를 둘러 감아 매는, 가늘고 긴 종이.",["지폐나 서류","둘러 감아 매는","가늘고 긴 종이"]],
+["사연","일의 앞뒤 사정과 까닭. ≒ 사정",["앞뒤 사정","까닭"]],
+["세대","그때에 당면한 시대.",["당면한 시대"]],
+["타임캡슐","그 시대를 대표하는 기록이나 물건을 담아서 후세에 온전히 전할 목적으로 고안한 용기.",["시대를 대표하는 기록이나 물건","후세에 온전히 전할","고안한 용기"]],
+["반응하다","자극에 대응하여 어떤 현상이 일어나다.",["자극에 대응","현상"]],
+["당부","말로 단단히 부탁함. 또는 그런 부탁.",["단단히 부탁"]],
+["담다","어떤 내용이나 사상을 그림, 글, 말, 표정 등의 속에 포함하거나 반영하다.",["내용이나 사상","포함하거나 반영"]],
+["후세","다음에 오는 세상. 또는 다음 세대의 사람들.",["다음 세대"]],
+["발전하다","더 낫고 좋은 상태나 더 높은 단계로 나아가다.",["더 낫고 좋은","높은 단계"]],
+["인상","어떤 대상에 대하여 마음속에 새겨지는 느낌. ≒ 각인, 감명",["마음속에 새겨지는","느낌"]],
+["아이디","인터넷에서, 이용자의 신분을 증명할 수 있는 고유의 체계. 문자나 숫자 등으로 이루어진다.",["이용자의 신분","고유의 체계"]],
+["고민","어찌할 줄 몰라 괴로워하고 애를 태움.",["괴로워하고","애를 태움"]],
+["라디오","방송국에서, 일정한 시간 안에 음악·드라마·뉴스·강연 등의 음성을 전파로 방송하여 수신 장치를 갖추고 있는 청취자들에게 듣게 하는 일. 또는 그런 방송 내용.",["음성을 전파로 방송","청취자들에게 듣게 하는 일"]],
+["마련하다","헤아려서 갖추다. ≒ 갖추다",["헤아려서","갖추다"]],
+["추천하다","어떤 조건에 적합한 대상을 책임지고 소개하다.",["적합한 대상","소개"]],
+["등장인물","연극, 영화, 소설 등에 나오는 인물.",["연극, 영화, 소설","인물"]],
+["소재","어떤 것을 만드는 데 바탕이 되는 재료.",["바탕이 되는","재료"]],
+["갈등","칡과 등나무가 서로 얽히는 것과 같이, 개인이나 집단 사이에 목표나 이해관계가 달라 서로 적대시하거나 충돌함. 또는 그런 상태.",["목표나 이해관계","충돌"]],
+["일지","그날그날의 일을 적은 기록. 또는 그런 책.",["그날그날","기록"]],
+["제안하다","안이나 의견으로 내놓다. ≒ 건의하다, 내놓다",["안이나 의견","내놓다"]],
+["대본","연극의 상연이나 영화 제작에 있어서 기본이 되는 글.",["연극의 상연이나 영화 제작","기본이 되는 글"]],
+["관계","둘 이상의 사람, 사물, 현상 등이 서로 관련을 맺거나 관련이 있음. 또는 그런 관련.",["서로 관련","관련이 있음"]],
+["진솔하다","진실하고 솔직하다. ≒ 솔직하다",["진실하고","솔직하다"]],
+["양상","사물이나 현상의 모양이나 상태. ≒ 모습, 모양, 상태",["모양이나 상태"]],
+["주제","대화나 연구 등에서 중심이 되는 문제.",["중심이 되는 문제"]],
+["용기","씩씩하고 굳센 기운. 또는 사물을 겁내지 아니하는 기개.",["씩씩하고 굳센","겁내지 아니하는"]],
+["기관","특별한 학술 기예를 장려하는 관직. 기정, 기좌, 기사 등을 이른다.",["학술 기예를 장려하는 관직"]],
+["협의","둘 이상의 사람이 서로 협력하여 의논함.",["서로 협력","의논"]],
+["해석","사물이나 행위 등의 내용을 판단하고 이해하는 일. 또는 그 내용.",["판단하고 이해"]]
+].map((x,i)=>({id:i+1,term:x[0],meaning:x[1],keys:x[2]}));
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let order=[...words], current=0, mastered=new Set(JSON.parse(localStorage.getItem('malttut-mastered')||'[]'));
+const displayTerm=s=>s.replace(/\([^)]*\)/g,'');
+const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function highlight(w){let s=w.meaning;w.keys.forEach(k=>s=s.replace(new RegExp(esc(k),'g'),`<mark>${k}</mark>`));return s}
+function updateMastery(){ $('#masteryText').textContent=`${mastered.size} / 56`;$('#masteryBar').style.width=`${mastered.size/56*100}%`;localStorage.setItem('malttut-mastered',JSON.stringify([...mastered])) }
+function renderList(){ $('#wordList').innerHTML=order.map((w,i)=>`<div class="word-row ${i===current?'focus':''}" data-i="${i}"><span class="num">${String(w.id).padStart(2,'0')}</span><span class="term">${displayTerm(w.term)}</span><span class="meaning">${highlight(w)}</span></div>`).join('');$$('.word-row').forEach(r=>r.onclick=()=>{current=+r.dataset.i;renderList();renderStudy()}) }
+function renderStudy(){let w=order[current];$('#studyCard').innerHTML=`<div><span class="index">WORD ${String(w.id).padStart(2,'0')}</span><h2>${displayTerm(w.term)}</h2><div class="definition">${highlight(w)}</div></div><div><p class="hint">뜻을 소리 내어 읽고 단어를 가려서 떠올려 보세요.</p><div class="card-actions"><button id="prev">이전</button><button id="again">다시 볼래요</button><button class="know" id="know">외웠어요 ✓</button><button id="next">다음</button></div></div>`;$('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);$('#again').onclick=()=>{mastered.delete(w.id);updateMastery();toast('다시 볼 단어로 표시했어요')};$('#know').onclick=()=>{mastered.add(w.id);updateMastery();toast('외운 단어에 추가했어요');move(1)}}
+function move(n){current=(current+n+order.length)%order.length;renderList();renderStudy();document.querySelector(`[data-i="${current}"]`).scrollIntoView({block:'nearest'})}
+$('#shuffleStudy').onclick=()=>{order=[...words].sort(()=>Math.random()-.5);current=0;renderList();renderStudy();toast('학습 순서를 섞었어요')};
+$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab,.panel').forEach(x=>x.classList.remove('active'));t.classList.add('active');$('#'+t.dataset.tab).classList.add('active');if(t.dataset.tab==='match')setTimeout(drawLines,50);if(t.dataset.tab==='quiz')$('#answerInput').focus()});
+let matchSet=[],selectedTerm=null,selectedMean=null,matched=new Set();
+function shuffle(items){const result=[...items];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]]}return result}
+let matchDeck=[],quizDeck=[];
+function sample(n){const picked=[];while(picked.length<n){if(!matchDeck.length)matchDeck=shuffle(words);const index=matchDeck.findIndex(w=>!picked.some(p=>p.id===w.id));if(index<0){matchDeck=shuffle(words);continue}picked.push(matchDeck.splice(index,1)[0])}return picked}
+function newMatch(){matchSet=sample(6);selectedTerm=selectedMean=null;matched=new Set();$('#terms').innerHTML=matchSet.map(w=>`<button class="match-item term-m" data-id="${w.id}">${displayTerm(w.term)}</button>`).join('');$('#meanings').innerHTML=[...matchSet].sort(()=>Math.random()-.5).map(w=>`<button class="match-item mean mean-m" data-id="${w.id}">${highlight(w)}</button>`).join('');$$('.match-item').forEach(b=>b.onclick=()=>pickMatch(b));$('#matchScore').textContent='0 / 6';$('#matchFooter').textContent='정답인 두 항목을 고르면 선이 그어집니다.';drawLines()}
+function pickMatch(b){if(b.classList.contains('done'))return;let isTerm=b.classList.contains('term-m');$$(isTerm?'.term-m':'.mean-m').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');if(isTerm)selectedTerm=b;else selectedMean=b;if(selectedTerm&&selectedMean){if(selectedTerm.dataset.id===selectedMean.dataset.id){let id=+selectedTerm.dataset.id;matched.add(id);selectedTerm.classList.replace('selected','done');selectedMean.classList.replace('selected','done');selectedTerm=selectedMean=null;$('#matchScore').textContent=`${matched.size} / 6`;drawLines();if(matched.size===6){$('#matchFooter').textContent='완벽해요! 여섯 쌍을 모두 연결했어요.';toast('매칭 완료!')} }else{let a=selectedTerm,c=selectedMean;a.classList.add('wrong');c.classList.add('wrong');setTimeout(()=>{a.classList.remove('wrong','selected');c.classList.remove('wrong','selected')},350);selectedTerm=selectedMean=null}}}
+function drawLines(){let board=$('#matchBoard'),svg=$('#matchLines');if(!board||!svg)return;let br=board.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${br.width} ${br.height}`);svg.innerHTML=[...matched].map(id=>{let a=document.querySelector(`.term-m[data-id="${id}"]`),b=document.querySelector(`.mean-m[data-id="${id}"]`);if(!a||!b)return'';let ar=a.getBoundingClientRect(),bb=b.getBoundingClientRect();return `<line x1="${ar.right-br.left}" y1="${ar.top+ar.height/2-br.top}" x2="${bb.left-br.left}" y2="${bb.top+bb.height/2-br.top}"/>`}).join('')}
+window.addEventListener('resize',drawLines);$('#newMatch').onclick=newMatch;
+let quizWord=null,qNo=0,correct=0,wrong=0,streak=0,locked=false;
+function normalize(s){return s.replace(/\([^)]*\)/g,'').replace(/[\s·.,/]/g,'')}
+function nextQuiz(){if(!quizDeck.length){quizDeck=shuffle(words);if(quizWord&&quizDeck[quizDeck.length-1].id===quizWord.id)[quizDeck[0],quizDeck[quizDeck.length-1]]=[quizDeck[quizDeck.length-1],quizDeck[0]]}quizWord=quizDeck.pop();qNo++;locked=false;$('#quizNo').textContent=`문제 ${qNo} · ${Math.floor((qNo-1)/words.length)+1}회차`;$('#quizQuestion').innerHTML=highlight(quizWord);$('#answerInput').value='';$('#answerInput').disabled=false;$('#feedback').className='feedback';$('#nextQuiz').style.display='none';$('#answerInput').focus()}
+$('#answerForm').onsubmit=e=>{e.preventDefault();if(locked)return;let val=$('#answerInput').value.trim();if(!val){toast('단어를 먼저 입력해 주세요');return}locked=true;let ok=normalize(val)===normalize(quizWord.term);$('#answerInput').disabled=true;let f=$('#feedback');f.className=`feedback show ${ok?'good':'bad'}`;if(ok){correct++;streak++;f.innerHTML=`<strong>정답이에요!</strong>${displayTerm(quizWord.term)}`;updateMastery()}else{wrong++;streak=0;f.innerHTML=`<strong>정답은 ‘${displayTerm(quizWord.term)}’</strong>입력한 답: ${val}`;}renderQuizMark();$('#streak').textContent=`연속 정답 ${streak}`;$('#correctStat').textContent=correct;$('#wrongStat').textContent=wrong;$('#rateStat').textContent=Math.round(correct/(correct+wrong)*100)+'%';$('#nextQuiz').style.display='block'};
+$('#nextQuiz').onclick=nextQuiz;$('#resetQuiz').onclick=()=>{qNo=correct=wrong=streak=0;$('#correctStat').textContent=$('#wrongStat').textContent='0';$('#rateStat').textContent='0%';$('#streak').textContent='연속 정답 0';nextQuiz();toast('퀴즈 기록을 초기화했어요')};
+function toast(s){let t=$('#toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+let review;
+try{review=new Set(JSON.parse(localStorage.getItem('malttut-review')||'[]'))}catch{review=new Set()}
+let studyFilter='all';
+const filters=document.createElement('div');filters.className='study-filters';filters.innerHTML='<button class="pill" data-filter="all">전체</button><button class="pill" data-filter="known">외운 단어</button><button class="pill" data-filter="review">다시 볼 단어</button>';$('#learn .toolbar').after(filters);
+function statusLabel(w){return mastered.has(w.id)?'외웠어요 ✓':review.has(w.id)?'다시 볼 단어':'학습 전'}
+function filteredWords(){return words.filter(w=>studyFilter==='all'||(studyFilter==='known'?mastered.has(w.id):review.has(w.id)))}
+function refreshFilters(){$$('[data-filter]').forEach(b=>{const k=b.dataset.filter;b.textContent=(k==='all'?'전체':k==='known'?'외운 단어':'다시 볼 단어')+' '+(k==='all'?words.length:k==='known'?mastered.size:review.size);b.classList.toggle('primary',k===studyFilter);b.setAttribute('aria-pressed',String(k===studyFilter))})}
+const saveMastery=updateMastery;
+updateMastery=function(){for(const id of mastered)review.delete(id);saveMastery();localStorage.setItem('malttut-review',JSON.stringify([...review]));refreshFilters()};
+const originalRenderList=renderList;
+renderList=function(){if(!order.length){$('#wordList').innerHTML='<p class="empty-note">이 목록에 저장된 단어가 없어요.</p>';return}originalRenderList();$$('.word-row').forEach((r,i)=>{const badge=document.createElement('small');badge.className='word-status';badge.textContent=statusLabel(order[i]);r.querySelector('.term').append(badge)})};
+const originalRenderStudy=renderStudy;
+renderStudy=function(){if(!order.length){$('#studyCard').innerHTML='<div class="empty-note">이 목록에 단어가 없어요.<br>전체 목록에서 단어를 선택해 주세요.</div>';return}originalRenderStudy();const w=order[current];const badge=document.createElement('span');badge.className='card-status';badge.textContent=statusLabel(w);$('#studyCard .index').after(badge);$('#again').textContent=review.has(w.id)?'다시 볼래요 ✓':'다시 볼래요';$('#know').textContent=mastered.has(w.id)?'외운 단어 ✓':'외웠어요';$('#again').setAttribute('aria-pressed',String(review.has(w.id)));$('#know').setAttribute('aria-pressed',String(mastered.has(w.id)));$('#again').onclick=()=>markWord(w,false);$('#know').onclick=()=>markWord(w,true)};
+function markWord(w,known){if(known){mastered.add(w.id);review.delete(w.id)}else{mastered.delete(w.id);review.add(w.id)}updateMastery();if(studyFilter!=='all'){order=filteredWords();current=Math.min(current,Math.max(0,order.length-1))}renderList();renderStudy();toast('‘'+displayTerm(w.term)+'’ '+(known?'외운 단어에 저장했어요':'복습 목록에 저장했어요'))}
+const originalMove=move;move=function(n){if(order.length)originalMove(n)};
+$$('[data-filter]').forEach(b=>b.onclick=()=>{studyFilter=b.dataset.filter;order=filteredWords();current=0;renderList();renderStudy();refreshFilters();if(studyFilter!=='all'){$('.study').classList.add('mobile-list-open');const toggle=$('.mobile-list-toggle');if(toggle){toggle.setAttribute('aria-expanded','true');toggle.textContent='단어 목록 접기 ▴'}}});
+$('#shuffleStudy').onclick=()=>{order=shuffle(filteredWords());current=0;renderList();renderStudy();toast('선택한 목록의 순서를 섞었어요')};
+const quizMark=document.createElement('div');quizMark.id='quizMark';quizMark.className='quiz-mark';quizMark.hidden=true;$('#nextQuiz').before(quizMark);
+function renderQuizMark(){quizMark.hidden=false;quizMark.innerHTML='<p>이 단어를 외웠나요? 직접 표시해 주세요.</p><div class="quiz-mark-buttons"><button class="pill" id="quizAgain">다시 볼래요</button><button class="pill primary" id="quizKnow">외웠어요 ✓</button></div><p class="quiz-status"></p>';function refresh(){$('#quizMark .quiz-status').textContent=statusLabel(quizWord);$('#quizKnow').setAttribute('aria-pressed',String(mastered.has(quizWord.id)));$('#quizAgain').setAttribute('aria-pressed',String(review.has(quizWord.id)))}$('#quizKnow').onclick=()=>{markWord(quizWord,true);refresh()};$('#quizAgain').onclick=()=>{markWord(quizWord,false);refresh()};refresh()}
+const originalNextQuiz=nextQuiz;nextQuiz=function(){quizMark.hidden=true;originalNextQuiz()};$('#nextQuiz').onclick=()=>nextQuiz();
+const clearButton=document.createElement('button');clearButton.className='clear-data';clearButton.textContent='저장된 학습 데이터 삭제';$('.shell').append(clearButton);
+clearButton.onclick=()=>{if(!confirm('외운 단어와 복습 목록, 현재 테스트 기록을 모두 삭제할까요? 삭제 후에는 되돌릴 수 없어요.'))return;localStorage.removeItem('malttut-mastered');localStorage.removeItem('malttut-review');mastered.clear();review.clear();studyFilter='all';order=[...words];current=0;updateMastery();renderList();renderStudy();quizDeck=[];matchDeck=[];$('#resetQuiz').click();newMatch();toast('저장된 학습 데이터를 삭제했어요')};
+renderList();renderStudy();updateMastery();newMatch();nextQuiz();
+const listToggle=document.createElement('button');
+listToggle.className='mobile-list-toggle';
+listToggle.textContent='전체 단어 목록 보기 ▾';
+listToggle.setAttribute('aria-expanded','false');
+listToggle.setAttribute('aria-controls','wordList');
+$('.study').append(listToggle);
+listToggle.onclick=()=>{const open=$('.study').classList.toggle('mobile-list-open');listToggle.setAttribute('aria-expanded',String(open));listToggle.textContent=open?'단어 목록 접기 ▴':'전체 단어 목록 보기 ▾'};
+</script></body></html>
